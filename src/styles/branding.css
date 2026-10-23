@@ -437,3 +437,10 @@
 .br-link-fld input[aria-invalid="true"] { border: 2px solid var(--digitv2-lightTheme-alert-error) !important; }
 .br-error { display: flex; align-items: flex-start; gap: 6px; margin: 6px 0 0; font-size: 0.875rem; color: var(--digitv2-lightTheme-alert-error); }
 .br-error .ux-icon { flex: none; margin-top: 1px; }
+/* Return to last saved: an undo arrow in the label's colour, so it greys out with the label when disabled */
+.br-revert::before {
+  content: ''; flex: none; width: 20px; height: 20px; background: var(--digitv2-lightTheme-primary-1);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.88 5.12-1.88 3.54 0 6.55 2.31 7.6 5.5l2.37-.78C21.08 11.03 17.15 8 12.5 8z'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.88 5.12-1.88 3.54 0 6.55 2.31 7.6 5.5l2.37-.78C21.08 11.03 17.15 8 12.5 8z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+.br-revert.disabled::before { background: var(--digitv2-lightTheme-text-disabled); }
