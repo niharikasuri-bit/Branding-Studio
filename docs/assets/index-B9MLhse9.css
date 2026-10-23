@@ -2611,6 +2611,10 @@ input.geo-check:focus-visible { outline: none; box-shadow: var(--focus); }
 .br-revert.disabled::before { background: var(--digitv2-lightTheme-text-disabled); }
 /* The hidden file input behind "Browse in my files" stays 1px; the field input width rule was stretching it and adding a horizontal scrollbar */
 .br-fld input.ux-visually-hidden { width: 1px !important; height: 1px !important; padding: 0 !important; border: 0 !important; }
+/* A slimmer Apply bar (76px → 56px); the grid above it grows to match */
+.cg-bar.br-bar { padding-top: 8px; padding-bottom: 8px; }
+.cg-bar.br-bar > button { height: 40px; }
+.br-grid { height: calc(100vh - 112px - 56px); }
 /* ---------- A product's landing: Overview, Quick actions, Items to review ---------- */
 .ph { display: flex; flex-direction: column; gap: 24px; margin-top: 24px; }
 .ph-sec {

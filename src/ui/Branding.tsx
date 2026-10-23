@@ -407,12 +407,6 @@ export function Branding() {
                   onChange={(e) => set({ footer: e.target.value })}
                 />
               </div>
-              <div className="br-fld">
-                <label className="br-check">
-                  <input type="checkbox" checked={theme.poweredBy} onChange={(e) => set({ poweredBy: e.target.checked })} />
-                  Show “Powered by DIGIT”
-                </label>
-              </div>
             </>
           )}
               {/* Reset just this part to the chosen theme, shown only when it differs */}
