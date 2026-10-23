@@ -1,11 +1,11 @@
-import { useId, useRef, useState } from 'react';
-import { Button } from '@egovernments/digit-ui-components';
+import { useEffect, useId, useRef, useState } from 'react';
+import { Button, FieldV1 } from '@egovernments/digit-ui-components';
 import { Icon } from '../components/Icon';
 import { useAccount } from '../lib/store';
 import { PRODUCT_FULL_NAME, enabledProducts, type BrandTheme } from '../lib/model';
 import { usePageToast } from './PageToast';
 import { THEMES, applyTheme, savedTheme as consoleTheme, type ThemeId } from '../lib/theme';
-import { showError } from './ErrorToast';
+import { LogoUpload } from './LogoUpload';
 import { LOGO } from '../logo';
 
 /**
@@ -85,12 +85,12 @@ export const DEFAULT_THEME: BrandTheme = {
 
 type Section = 'themes' | 'typography' | 'color' | 'radius' | 'header' | 'footer';
 const SECTIONS: { id: Section; label: string; icon: string }[] = [
-  { id: 'themes', label: 'Themes', icon: 'ViewQuilt' },
+  { id: 'themes', label: 'Themes', icon: 'ThemeSwatches' },
   { id: 'typography', label: 'Typography', icon: 'Typography' },
   { id: 'color', label: 'Colour', icon: 'InvertColors' },
   { id: 'radius', label: 'Radius', icon: 'RoundedCorner' },
-  { id: 'header', label: 'Header', icon: 'CalendarViewDay' },
-  { id: 'footer', label: 'Footer', icon: 'HorizontalSplit' },
+  { id: 'header', label: 'Header', icon: 'PageHeader' },
+  { id: 'footer', label: 'Footer', icon: 'PageFooter' },
 ];
 
 
@@ -107,7 +107,6 @@ export function Branding() {
   const [logo, setLogo] = useState(account.branding.logo);
   const [section, setSection] = useState<Section>('themes');
   const [toastEl, showToast] = usePageToast();
-  const fileInput = useRef<HTMLInputElement>(null);
   const set = (t: Partial<BrandTheme>) => setTheme((x) => ({ ...x, ...t }));
   // Picking only changes the preview; Apply theme applies it to the whole console
   const pickTheme = (p: (typeof PRESETS)[number]) => set({ preset: p.id, primary: p.primary, header: p.header, background: p.background, font: p.font, radius: p.radius });
@@ -119,18 +118,15 @@ export function Branding() {
   // A logo can also come from a link to an image that's already online
   const [logoLink, setLogoLink] = useState(/^https?:/.test(account.branding.logo) ? account.branding.logo : '');
   const [linkError, setLinkError] = useState('');
-
-  const pickFile = (f?: File) => {
-    if (!f) return;
-    if (!/image\/(png|svg\+xml|jpeg)/.test(f.type)) return showError('Choose a PNG, SVG or JPG file');
-    const r = new FileReader();
-    r.onload = () => {
-      setLogo(String(r.result));
-      setLogoLink('');
-      setLinkError('');
-    };
-    r.readAsDataURL(f);
-  };
+  // One way at a time: an uploaded file turns the link off, and a link turns the upload off
+  const uploaded = logo.startsWith('data:');
+  const linked = !uploaded && logoLink.trim() !== '';
+  // The library's TextInput turns the "https://" placeholder into "//", so it's set on the input directly
+  const linkWrap = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const input = linkWrap.current?.querySelector('input');
+    if (input && input.placeholder !== 'https://') input.placeholder = 'https://';
+  });
   const addLink = () => {
     const url = logoLink.trim();
     if (!url) return setLinkError('');
@@ -310,7 +306,7 @@ export function Branding() {
               <div className="br-fld">
                 <label htmlFor={`${uid}-name`}>Display name</label>
                 <p className="br-hint" id={`${uid}-name-hint`}>
-                  Shown in the header next to your logo. Your account name stays the same.
+                  Shown in the header next to your logo.
                 </p>
                 <input id={`${uid}-name`} value={name} aria-describedby={`${uid}-name-hint`} onChange={(e) => setName(e.target.value)} />
               </div>
@@ -318,79 +314,46 @@ export function Branding() {
                 <p className="br-label" id={`${uid}-logo-l`}>
                   Upload logo
                 </p>
-                <input
-                  ref={fileInput}
-                  className="ux-visually-hidden"
-                  type="file"
-                  accept="image/png,image/svg+xml,image/jpeg"
-                  tabIndex={-1}
-                  aria-hidden="true"
-                  onChange={(e) => {
-                    pickFile(e.target.files?.[0]);
-                    e.target.value = '';
-                  }}
-                />
-                <div
-                  className="br-drop"
-                  onDragOver={(e) => e.preventDefault()}
-                  onDrop={(e) => {
-                    e.preventDefault();
-                    pickFile(e.dataTransfer.files?.[0]);
-                  }}
-                >
-                  {logo ? <img src={logo} alt="Your logo" /> : <Icon name="FileUpload" size={32} />}
-                  <p>
-                    Drag and drop your logo or{' '}
-                    <button type="button" className="up-browse" aria-describedby={`${uid}-logo-l`} onClick={() => fileInput.current?.click()}>
-                      Browse in my files
-                    </button>
+                <LogoUpload logo={logo} disabled={linked} onChange={setLogo} describedBy={`${uid}-logo-l`} />
+                {linked && (
+                  <p className="br-hint br-off-hint" id={`${uid}-upload-off`}>
+                    Clear the logo link to upload a file instead.
                   </p>
-                  {logo && (
-                    <button
-                      type="button"
-                      className="br-link"
-                      onClick={() => {
-                        setLogo('');
-                        setLogoLink('');
-                        setLinkError('');
-                      }}
-                    >
-                      Remove logo
-                    </button>
-                  )}
-                </div>
+                )}
                 {/* Or a link to an image that's already online; it's used once it loads */}
                 <p className="br-or" aria-hidden="true">
                   <span>or</span>
                 </p>
-                <div className="br-link-fld">
-                  <label htmlFor={`${uid}-logo-link`}>Logo link</label>
-                  <input
-                    id={`${uid}-logo-link`}
-                    type="url"
-                    inputMode="url"
+                <p className="br-label">Add logo link</p>
+                {/* DIGIT field (label + text input); it's checked when they leave the field or press Enter */}
+                <div
+                  ref={linkWrap}
+                  className="br-link-fld"
+                  onBlur={addLink}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      addLink();
+                    }
+                  }}
+                >
+                  <FieldV1
+                    type="text"
+                    label="Logo link"
                     value={logoLink}
                     placeholder="https://"
-                    aria-invalid={linkError ? true : undefined}
-                    aria-describedby={linkError ? `${uid}-logo-link-err` : undefined}
-                    onChange={(e) => {
-                      setLogoLink(e.target.value);
+                    disabled={uploaded}
+                    error={linkError}
+                    description={uploaded ? 'Remove the uploaded logo to add a link instead.' : ''}
+                    populators={{ name: 'logoLink', alignFieldPairVerically: true }}
+                    onChange={(v: string | { target: { value: string } }) => {
+                      const val = typeof v === 'string' ? v : (v?.target?.value ?? '');
+                      setLogoLink(val);
                       setLinkError('');
-                    }}
-                    onBlur={addLink}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
-                        e.preventDefault();
-                        addLink();
-                      }
+                      // Clearing the link takes its logo away, which turns the upload back on
+                      if (!val.trim() && /^https?:/.test(logo)) setLogo('');
                     }}
                   />
-                  {linkError && (
-                    <p className="br-error" id={`${uid}-logo-link-err`}>
-                      <Icon name="ErrorOutline" size={16} />
-                      {linkError}
-                    </p>
-                  )}
                 </div>
               </div>
             </>
@@ -400,8 +363,12 @@ export function Branding() {
             <>
               <div className="br-fld">
                 <label htmlFor={`${uid}-footer`}>Footer text</label>
+                <p className="br-hint" id={`${uid}-footer-hint`}>
+                  Shown at the bottom of every page.
+                </p>
                 <input
                   id={`${uid}-footer`}
+                  aria-describedby={`${uid}-footer-hint`}
                   value={theme.footer}
                   placeholder="Helpline 1800 123 456"
                   onChange={(e) => set({ footer: e.target.value })}
@@ -447,7 +414,7 @@ export function Branding() {
 /** Their app's home screen in a phone, drawn with the theme. Decorative: the settings carry the meaning. */
 function Preview({ theme, name, logo }: { theme: BrandTheme; name: string; logo: string }) {
   const { account } = useAccount();
-  const font = FONTS.find((f) => f.id === theme.font)!.stack;
+  const font = (FONTS.find((f) => f.id === theme.font) ?? FONTS[0]).stack;
   const radius = RADII.find((r) => r.id === theme.radius)!.px;
   const first = account.admin.name.trim().split(/\s+/)[0] || 'there';
   const products = enabledProducts(account).slice(0, 2);
