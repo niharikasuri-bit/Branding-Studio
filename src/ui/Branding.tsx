@@ -433,7 +433,7 @@ export function Branding() {
 
           <div className="br-preview-bar">
 
-            <Button variation="secondary" label="Return to last saved" title="Go back to how your branding looked when you last saved it" onClick={reset} isDisabled={!dirty} />
+            <Button variation="secondary" icon="Restore" label="Return to last saved" title="Go back to how your branding looked when you last saved it" onClick={reset} isDisabled={!dirty} />
 
           </div>
 
