@@ -54,7 +54,7 @@
 .br-seg input { position: absolute; opacity: 0; width: 1px; height: 1px; }
 .br-seg label:has(input:focus-visible) { box-shadow: var(--focus); }
 .br-radius-eg { width: 18px; height: 18px; border: 2px solid currentColor; }
-.br-drop { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 24px 16px; border: 1.5px dashed #C9C9C9; border-radius: 10px; background: #FAFAFA; text-align: center; color: var(--c-text-2); }
+.br-drop { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 24px 16px; border: 1.5px dashed #C9C9C9; border-radius: 10px; background: #FFFFFF; text-align: center; color: var(--c-text-2); }
 .br-drop img { max-width: 160px; max-height: 64px; object-fit: contain; }
 .br-drop .ux-icon { color: #8A8A8A; }
 .br-link { border: 0; background: none; padding: 2px 4px; font: inherit; font-weight: 500; color: var(--c-primary-ink); text-decoration: underline; cursor: pointer; }

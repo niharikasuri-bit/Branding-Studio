@@ -16,12 +16,13 @@ import { LOGO } from '../logo';
  */
 
 /** The four design-system themes (DIGIT and the Teal, Blue and Black/Orange specs). Picking one sets its
- *  colours, font and corners; Save also applies it to the whole console (src/lib/theme.ts). */
-const PRESETS: { id: ThemeId; name: string; primary: string; header: string; background: string; font: BrandTheme['font']; radius: BrandTheme['radius'] }[] = [
-  { id: 'digit', name: 'DIGIT Classic', primary: '#C84C0E', header: '#0B4B66', background: '#F5F7F8', font: 'roboto', radius: 'rounded' },
+ *  colours, font and corners; Save also applies it to the whole console (src/lib/theme.ts).
+ *  swatch: the third colour on the theme card, when it isn't the background (Primary 1 bg). */
+const PRESETS: { id: ThemeId; name: string; primary: string; header: string; background: string; swatch?: string; font: BrandTheme['font']; radius: BrandTheme['radius'] }[] = [
+  { id: 'digit', name: 'DIGIT Classic', primary: '#C84C0E', header: '#0B4B66', background: '#F5F7F8', swatch: '#FBEEE8', font: 'roboto', radius: 'rounded' },
   { id: 'teal', name: 'Lagoon', primary: '#047575', header: '#505A5F', background: '#EEEEEE', font: 'dm-sans', radius: 'pill' },
   { id: 'blue', name: 'Horizon', primary: '#0B5FD7', header: '#363636', background: '#EEEEEE', font: 'public-sans', radius: 'rounded' },
-  { id: 'black-orange', name: 'Ember', primary: '#B94C1C', header: '#0F172A', background: '#F8EBE7', font: 'inter', radius: 'pill' },
+  { id: 'black-orange', name: 'Ember', primary: '#B94C1C', header: '#0F172A', background: '#EEEEEE', swatch: '#FBEEE8', font: 'inter', radius: 'pill' },
 ];
 
 const FONTS: { id: BrandTheme['font']; name: string; stack: string }[] = [
@@ -199,7 +200,7 @@ export function Branding() {
                     <span className="br-swatch" aria-hidden="true">
                       <span style={{ background: p.header }} />
                       <span style={{ background: p.primary }} />
-                      <span style={{ background: p.background }} />
+                      <span style={{ background: p.swatch ?? p.background }} />
                     </span>
                     <span className="br-font-name">
                       {p.name}
@@ -244,7 +245,7 @@ export function Branding() {
                 ] as const
               ).map(([key, lbl, hint]) => {
                 // One swatch per distinct value, labelled with the theme(s) it comes from
-                const opts = PRESETS.filter((x) => !(key === 'background' && x.id === 'black-orange')).reduce<{ value: string; from: string[] }[]>((acc, x) => {
+                const opts = PRESETS.reduce<{ value: string; from: string[] }[]>((acc, x) => {
                   const hit = acc.find((o) => o.value === x[key]);
                   if (hit) hit.from.push(x.name);
                   else acc.push({ value: x[key], from: [x.name] });

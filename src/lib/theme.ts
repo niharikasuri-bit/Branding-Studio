@@ -85,7 +85,7 @@ export const THEMES: Theme[] = [
       '--digitv2-lightTheme-text-secondary': '#817672',
       '--digitv2-lightTheme-text-disabled': '#CEC2BE',
       '--digitv2-lightTheme-generic-divider': '#DFD3CE',
-      '--digitv2-lightTheme-generic-background': '#F8EBE7',
+      '--digitv2-lightTheme-generic-background': '#EEEEEE',
       '--digitv2-lightTheme-generic-inputborder': '#605652',
     },
   },
