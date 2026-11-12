@@ -467,3 +467,9 @@
 .br-link-fld .digit-label-field-pair { gap: 0 !important; margin: 0 !important; }
 .br-link-fld .digit-label-field-pair .label { margin: 0 0 4px !important; padding: 0 !important; }
 .br-link-fld .digit-field, .br-link-fld .digit-text-input-field, .br-link-fld .input-container, .br-link-fld input { width: 100% !important; max-width: none !important; }
+
+/* Logo uploader: same look as the Studio hero banner image uploader */
+.br-sublabel { margin: 0 0 6px; font-weight: 400; color: var(--c-text); }
+.br-drop p { color: #707070; }
+.br-drop .up-browse { font-weight: 400; color: #A33E0B; }
+.br-link-fld { margin-top: 0; }

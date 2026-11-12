@@ -311,7 +311,9 @@ export function Branding() {
                 <input id={`${uid}-name`} value={name} aria-describedby={`${uid}-name-hint`} onChange={(e) => setName(e.target.value)} />
               </div>
               <div className="br-fld">
-                <p className="br-label" id={`${uid}-logo-l`}>
+                {/* Same layout as the hero banner image uploader: box heading -> "Upload logo" -> drop box -> or -> "Logo link" */}
+                <p className="br-label">Logo</p>
+                <p className="br-sublabel" id={`${uid}-logo-l`}>
                   Upload logo
                 </p>
                 <LogoUpload logo={logo} disabled={linked} onChange={setLogo} describedBy={`${uid}-logo-l`} />
@@ -324,7 +326,6 @@ export function Branding() {
                 <p className="br-or" aria-hidden="true">
                   <span>or</span>
                 </p>
-                <p className="br-label">Add logo link</p>
                 {/* DIGIT field (label + text input); it's checked when they leave the field or press Enter */}
                 <div
                   ref={linkWrap}
