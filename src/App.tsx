@@ -26,6 +26,15 @@ const BACK_URL = (() => {
   }
 })();
 
+/** Back carries the applied branding to Studio in the link (?brand=…), so Studio shows it even when the two
+ *  run on different sites (local ports) or Studio's copy of the storage is out of date. */
+function backWithBrand(b: { name: string; logo: string; saved: boolean; theme?: unknown }) {
+  if (!b.saved || !b.theme) return BACK_URL;
+  const payload = { name: b.name, logo: b.logo && b.logo.length < 8000 ? b.logo : '', theme: b.theme, at: Date.now() };
+  const enc = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
+  return BACK_URL + (BACK_URL.includes('?') ? '&' : '?') + 'brand=' + encodeURIComponent(enc);
+}
+
 const DEMO: Answers = { ...EMPTY_ANSWERS, name: 'Elena Garcia', email: 'saas@gmail.com', org: 'Demo Account', products: ['cms', 'hcm'] };
 
 /** The account nav, as in the console. */
@@ -108,7 +117,7 @@ function Frame() {
         </nav>
         <div className="sh-content">
           <div className="sh-sub has-back">
-            <button type="button" className="sh-back-home" onClick={() => location.assign(BACK_URL)}>
+            <button type="button" className="sh-back-home" onClick={() => location.assign(backWithBrand(b))}>
               <Icon name="ArrowBack" size={18} />
               Back
             </button>
