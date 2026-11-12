@@ -12,6 +12,20 @@ import { LOGO } from './logo';
  * and sub-header. Only the Branding page works: the nav, Back, Help and Restart look the same
  * but do nothing. Changes are kept in the browser, so they survive a reload.
  */
+/** Back returns to the Studio Index this page was opened from (?back=…, kept for the visit); otherwise the live Studio Index. */
+const STUDIO_INDEX = 'https://niharikasuri-bit.github.io/Studio-UI-UX-Changes/';
+const BACK_URL = (() => {
+  const ok = (u: string | null) => !!u && /^https?:\/\/(localhost(:\d+)?|127\.0\.0\.1(:\d+)?|niharikasuri-bit\.github\.io)\//.test(u);
+  const fromLink = new URLSearchParams(location.search).get('back');
+  try {
+    if (ok(fromLink)) sessionStorage.setItem('studio-back', fromLink as string);
+    const kept = sessionStorage.getItem('studio-back');
+    return ok(kept) ? (kept as string) : STUDIO_INDEX;
+  } catch {
+    return ok(fromLink) ? (fromLink as string) : STUDIO_INDEX;
+  }
+})();
+
 const DEMO: Answers = { ...EMPTY_ANSWERS, name: 'Elena Garcia', email: 'saas@gmail.com', org: 'Demo Account', products: ['cms', 'hcm'] };
 
 /** The account nav, as in the console. */
@@ -94,7 +108,7 @@ function Frame() {
         </nav>
         <div className="sh-content">
           <div className="sh-sub has-back">
-            <button type="button" className="sh-back-home">
+            <button type="button" className="sh-back-home" onClick={() => location.assign(BACK_URL)}>
               <Icon name="ArrowBack" size={18} />
               Back
             </button>
