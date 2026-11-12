@@ -19,7 +19,7 @@ const ALERTS = {
 };
 const COOL_NEUTRALS = {
   '--digitv2-lightTheme-text-primary': '#363636',
-  '--digitv2-lightTheme-text-secondary': '#787878',
+  '--digitv2-lightTheme-text-secondary': '#707070',
   '--digitv2-lightTheme-text-disabled': '#C5C5C5',
   '--digitv2-lightTheme-generic-background': '#EEEEEE',
   '--digitv2-lightTheme-generic-divider': '#D6D5D4',
@@ -76,17 +76,12 @@ export const THEMES: Theme[] = [
     pill: true,
     vars: {
       ...ALERTS,
-      ...tints('#B94C1C', '#A34318', '185 76 28', '251 238 232', '#EFCDBD', '#FFFAF7'),
-      '--digitv2-lightTheme-primary-bg': '#FBEEE8',
+      ...COOL_NEUTRALS,
+      ...tints('#B94C1C', '#A34318', '185 76 28', '251 244 241', '#EFCDBD', '#FFFAF7'),
+      '--digitv2-lightTheme-primary-bg': '#FBF4F1',
       '--digitv2-lightTheme-primary-2': '#0F172A',
       '--digitv2-lightTheme-alert-info': '#0057BD',
       '--digitv2-lightTheme-alert-infobg': '#DEEFFF',
-      '--digitv2-lightTheme-text-primary': '#3D3430',
-      '--digitv2-lightTheme-text-secondary': '#817672',
-      '--digitv2-lightTheme-text-disabled': '#CEC2BE',
-      '--digitv2-lightTheme-generic-divider': '#DFD3CE',
-      '--digitv2-lightTheme-generic-background': '#EEEEEE',
-      '--digitv2-lightTheme-generic-inputborder': '#605652',
     },
   },
 ];
