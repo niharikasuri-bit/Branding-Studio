@@ -565,7 +565,7 @@ export const BRAND_COLOURS = [
   { value: '#C84C0E', label: 'DIGIT Classic', theme: 'digit' },
   { value: '#047575', label: 'Lagoon', theme: 'teal' },
   { value: '#0B5FD7', label: 'Horizon', theme: 'blue' },
-  { value: '#B94C1C', label: 'Ember', theme: 'black-orange' },
+  { value: '#B2491B', label: 'Ember', theme: 'black-orange' },
 ] as const;
 
 export const CHANNELS: {

@@ -22,7 +22,7 @@ const PRESETS: { id: ThemeId; name: string; primary: string; header: string; bac
   { id: 'digit', name: 'DIGIT Classic', primary: '#C84C0E', header: '#0B4B66', background: '#F5F7F8', swatch: '#FBEEE8', font: 'roboto', radius: 'rounded' },
   { id: 'teal', name: 'Lagoon', primary: '#047575', header: '#505A5F', background: '#EEEEEE', font: 'dm-sans', radius: 'pill' },
   { id: 'blue', name: 'Horizon', primary: '#0B5FD7', header: '#363636', background: '#EEEEEE', font: 'public-sans', radius: 'rounded' },
-  { id: 'black-orange', name: 'Ember', primary: '#B94C1C', header: '#0F172A', background: '#EEEEEE', swatch: '#FBF4F1', font: 'inter', radius: 'pill' },
+  { id: 'black-orange', name: 'Ember', primary: '#B2491B', header: '#0F172A', background: '#EEEEEE', swatch: '#FBF4F1', font: 'inter', radius: 'pill' },
 ];
 
 const FONTS: { id: BrandTheme['font']; name: string; stack: string }[] = [
@@ -45,7 +45,7 @@ const COLOUR_NAME: Record<string, string> = {
   '#C84C0E': 'Burnt orange',
   '#047575': 'Teal',
   '#0B5FD7': 'Bright blue',
-  '#B94C1C': 'Rust',
+  '#B2491B': 'Rust',
   '#0B4B66': 'Deep teal',
   '#505A5F': 'Slate grey',
   '#363636': 'Charcoal',

@@ -77,7 +77,7 @@ export const THEMES: Theme[] = [
     vars: {
       ...ALERTS,
       ...COOL_NEUTRALS,
-      ...tints('#B94C1C', '#A34318', '185 76 28', '251 244 241', '#EFCDBD', '#FFFAF7'),
+      ...tints('#B2491B', '#9D4017', '178 73 27', '251 244 241', '#EFCDBD', '#FFFAF7'),
       '--digitv2-lightTheme-primary-bg': '#FBF4F1',
       '--digitv2-lightTheme-primary-2': '#0F172A',
       '--digitv2-lightTheme-alert-info': '#0057BD',
